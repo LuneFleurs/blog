@@ -12,17 +12,17 @@ const LayoutWrapper = ({ children }) => {
   return (
     <SectionContainer>
       <div className="flex h-screen flex-col justify-between">
-        <header className="flex items-center justify-between py-10">
+        <header className="sticky top-0 z-10 flex items-center justify-between bg-opacity-80 py-5 shadow-lg backdrop-blur-md">
           <div>
             <Link href="/" aria-label={siteMetadata.headerTitle}>
               <div className="flex items-center justify-between">
-                {typeof siteMetadata.headerTitle === 'string' ? (
+                {/* {typeof siteMetadata.headerTitle === 'string' ? (
                   <div className="hidden h-6 text-2xl font-semibold sm:block">
                     {siteMetadata.headerTitle}
                   </div>
                 ) : (
                   siteMetadata.headerTitle
-                )}
+                )} */}
                 <div className="mr-3">
                   <Image src={logo} alt="blog logo" width={104} height={75} />
                   {/* <Logo /> */}
@@ -46,7 +46,7 @@ const LayoutWrapper = ({ children }) => {
             <MobileNav />
           </div>
         </header>
-        <main className="mb-auto">{children}</main>
+        <main className="mb-auto pt-5">{children}</main>
         <Footer />
       </div>
     </SectionContainer>
