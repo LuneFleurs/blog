@@ -12,7 +12,7 @@ const LayoutWrapper = ({ children }) => {
   return (
     <SectionContainer>
       <div className="flex h-screen flex-col justify-between">
-        <header className="sticky top-0 z-10 flex items-center justify-between bg-opacity-80 py-5 shadow-lg backdrop-blur-md">
+        <header className="sticky top-0 z-10 mx-auto flex w-full items-center justify-between py-5 shadow-lg backdrop-blur-md">
           <div>
             <Link href="/" aria-label={siteMetadata.headerTitle}>
               <div className="flex items-center justify-between">
@@ -46,7 +46,7 @@ const LayoutWrapper = ({ children }) => {
             <MobileNav />
           </div>
         </header>
-        <main className="mb-auto pt-5">{children}</main>
+        <main className="mb-auto">{children}</main>
         <Footer />
       </div>
     </SectionContainer>
