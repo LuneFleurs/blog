@@ -24,6 +24,12 @@ module.exports = {
         13: '3.25rem',
         14: '3.5rem',
       },
+      borderWidth: {
+        1: '1px',
+        3: '3px',
+        5: '5px',
+      },
+      borderColor: ['responsive', 'hover', 'focus', 'active'],
       fontFamily: {
         sans: ['InterVariable', ...defaultTheme.fontFamily.sans],
       },
@@ -162,7 +168,43 @@ module.exports = {
           },
         },
       }),
+      animation: {
+        rainbow: 'rainbow 1s ease-in-out infinite',
+      },
+      keyframes: {
+        rainbow: {
+          '0%': { borderColor: 'red' },
+          '14%': { borderColor: 'orange' },
+          '28%': { borderColor: 'yellow' },
+          '42%': { borderColor: 'green' },
+          '57%': { borderColor: 'blue' },
+          '71%': { borderColor: 'indigo' },
+          '85%': { borderColor: 'violet' },
+          '100%': { borderColor: 'red' },
+        },
+      },
     },
   },
-  plugins: [require('@tailwindcss/forms'), require('@tailwindcss/typography')],
+  plugins: [
+    require('@tailwindcss/forms'),
+    require('@tailwindcss/typography'),
+    function ({ addUtilities }) {
+      const newUtilities = {
+        '.border-gradient': {
+          'border-image':
+            'linear-gradient(to right, red, orange, yellow, green, blue, indigo, violet) 1',
+        },
+        '.rotate-360': {
+          transform: 'rotate(360deg)',
+        },
+        '.rotate-infinite': {
+          animation: 'spin 2s linear infinite',
+        },
+      }
+
+      addUtilities(newUtilities, {
+        variants: ['responsive', 'hover'],
+      })
+    },
+  ],
 }

@@ -4,6 +4,9 @@ import Tag from '@/components/Tag'
 import siteMetadata from '@/data/siteMetadata'
 import { getAllFilesFrontMatter } from '@/lib/mdx'
 import formatDate from '@/lib/utils/formatDate'
+import Image from '@/components/Image'
+import Avatar from '@/data/avatar.png'
+import React, { useRef, useEffect } from 'react'
 
 import NewsletterForm from '@/components/NewsletterForm'
 
@@ -16,11 +19,60 @@ export async function getStaticProps() {
 }
 
 export default function Home({ posts }) {
+  const avatarRef = useRef(null)
+
+  useEffect(() => {
+    const avatar = avatarRef.current
+    if (!avatar) return
+
+    const handleMouseMove = (e) => {
+      const rect = avatar.getBoundingClientRect()
+      const x = e.clientX - rect.left - rect.width / 2
+      const y = e.clientY - rect.top - rect.height / 2
+      const deg = (Math.atan2(y, x) * 180) / Math.PI + 90
+      avatar.style.transform = `rotate(${deg}deg)`
+    }
+
+    const handleMouseEnter = () => {
+      // Set the transition property before the mouse moves
+      avatar.style.transition = ''
+      avatar.addEventListener('mousemove', handleMouseMove)
+    }
+
+    const handleMouseLeave = () => {
+      avatar.style.transition = 'transform 1s' // Add transition
+      avatar.style.transform = 'rotate(0deg)' // Reset the rotation
+      avatar.removeEventListener('mousemove', handleMouseMove)
+    }
+
+    avatar.addEventListener('mouseenter', handleMouseEnter)
+    avatar.addEventListener('mouseleave', handleMouseLeave)
+
+    return () => {
+      avatar.removeEventListener('mouseenter', handleMouseEnter)
+      avatar.removeEventListener('mouseleave', handleMouseLeave)
+    }
+  }, [])
   return (
     <>
       <PageSEO title={siteMetadata.title} description={siteMetadata.description} />
       <div className="divide-y divide-gray-200 dark:divide-gray-700">
         <div className="space-y-2 pt-6 pb-8 md:space-y-5">
+          <div className="flex flex-col items-center pt-8">
+            <div ref={avatarRef}>
+              <Image
+                src={Avatar}
+                alt="avatar"
+                width={192}
+                height={192}
+                className="border-rainbow h-48 w-48 rounded-full border-4 border-solid"
+              />
+            </div>
+            <h3 className="pt-4 pb-2 text-2xl font-bold leading-8 tracking-tight">Hello!</h3>
+            <div className="text-gray-500 dark:text-gray-400">hi</div>
+            <div className="text-gray-500 dark:text-gray-400">somthing</div>
+            <div className="flex space-x-3 pt-6">else</div>
+          </div>
           <h1 className="text-3xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-4xl sm:leading-10 md:text-6xl md:leading-14">
             최근 글
           </h1>
