@@ -1,0 +1,238 @@
+---
+title: 'Markdown Guide'
+date: '2023-07-11'
+tags: ['markdown', 'jsx', 'github', 'guide', 'cheatsheet']
+draft: false
+summary: '블로그 글쓰기용 Markdown 문법 정리본'
+---
+
+# Introduction
+
+.md 파일과 .mdx 파일 파싱은 `unified`와 remark, rehype 패키지로 이루어집니다. `next-mdx-remote`는 Webpack을 건드리지 않고 보다 유연한 방식으로 .md 파일과 .mdx 파일을 파싱할 수 있게 해줍니다.
+
+`GitHub`에서 사용되는 markdown이 사용되었습니다. `mdx-prism`은 코드 블록에 대한 구문 강조 기능을 제공합니다.
+다음은 markdown이 어떻게 작성되고 보이는 지에 대한 예시입니다.
+
+이 포스트에서는 Markdown 뿐만이 아닌 Mdx파일에 대한 추가적인 기능도 다룹니다.
+
+이 포스트의 makrdown 설명서는 다음 페이지를 바탕으로 수정 및 추가 되었습니다 : https://guides.github.com/features/mastering-markdown/
+
+[Docusaurus](https://docusaurus.io/ko/docs/next)에서도 markdown 문법과 블로그에서 사용하는 추가적인 여러 도구들을 확인해볼 수 있습니다. https://docusaurus.io/ko/docs/next <br /><br />
+
+# What is Markdown?
+
+Markdown은 웹에서 텍스트의 스타일을 지정하는 방법입니다. 지금 읽고 있는 이 문서의 display 또한 유려하게 제어할 수 있습니다. 단어를 **굵게** 또는 _기울임꼴로_ 서식을 지정하고, 이미지를 추가하고, 목록을 만드는 것은 `Markdown`으로 수행할 수 있는 작업 중 일부에 불과합니다. 대부분 Markdown은 또는 `#`과 `*` 같이 알파벳이 아닌 문자가 몇 개 포함된 일반 텍스트로 이뤄져있습니다. <br /><br />
+
+# Syntax guide
+
+다음은 `GitHub` 또는 사용자 고유의 텍스트 파일에서 사용할 수 있는 Markdown 및 Mdx 구문에 대한 개요입니다.
+
+## 목차 ToC (Table of Contents)
+
+```jsx:mdx
+<TOCInline toc={props.toc} asDisclosure />
+```
+
+<TOCInline toc={props.toc} asDisclosure />
+
+## 줄바꿈 Line break
+
+```
+a b c\
+a
+b
+c
+
+a <br /> <br /> b <br /> <br /> c
+```
+
+a b c\
+a
+b
+c
+
+a <br /> <br /> b <br /> <br /> c
+
+## 헤더 Headers
+
+```
+# This is a h1 tag
+
+## This is a h2 tag
+
+#### This is a h4 tag
+```
+
+# This is a h1 tag
+
+## This is a h2 tag
+
+#### This is a h4 tag
+
+<br />
+
+## 강조 Emphasis
+
+```
+_This text will be italic_
+
+**This text will be bold**
+
+_You **can** combine them_
+```
+
+_This text will be italic_
+
+**This text will be bold**
+
+_You **can** combine them_
+
+## 취소선 Strikethrough
+
+```
+Any word wrapped with two tildes (like `~~this~~`) will appear ~~crossed out~~.
+```
+
+Any word wrapped with two tildes (like `~~this~~`) will appear ~~crossed out~~.
+
+## 리스트 Lists
+
+### 순서 x Unordered
+
+```
+- Item 1
+- Item 2
+  - Item 2a
+  - Item 2b
+```
+
+- Item 1
+- Item 2
+  - Item 2a
+  - Item 2b
+
+### 순서 o Ordered
+
+```
+1. Item 1
+1. Item 2
+1. Item 3
+   1. Item 3a
+   1. Item 3b
+```
+
+1. Item 1
+1. Item 2
+1. Item 3
+   1. Item 3a
+   1. Item 3b
+
+## 사진 Images
+
+```
+![GitHub Logo](https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png)
+Format: ![Alt Text](url)
+```
+
+![GitHub Logo](https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png)
+
+## 하이퍼링크 Links
+
+```
+http://github.com - http로 시작하면 링크 자동생성
+[GitHub](http://github.com)
+```
+
+http://github.com - http로 시작하면 링크 자동생성\
+[GitHub](http://github.com)
+
+## 인용구 Blockquotes
+
+```
+As Kanye West said:
+
+> We're living the future so
+> the present is our past.
+>> This is double blockquotes
+```
+
+As Kanye West said:
+
+> We're living the future so
+> the present is our past.
+>
+> > This is double blockquotes
+
+## 코드 하이라이팅 Inline code
+
+```
+I think you should use an
+`<addr>` element here instead.
+```
+
+I think you should use an
+`<addr>` element here instead.
+
+## 문법 하이라이팅 Syntax highlighting
+
+[GitHub Markdown](https://help.github.com/articles/basic-writing-and-formatting-syntax/) 에서 사용할 수 있는 Syntax higlighting :
+
+````
+```js:fancyAlert.js
+function fancyAlert(arg) {
+  if (arg) {
+    $.facebox({ div: '#foo' })
+  }
+}
+```
+````
+
+아래는 결과물 - ~개이뿌덩~
+
+```js:fancyAlert.js
+function fancyAlert(arg) {
+  if (arg) {
+    $.facebox({ div: '#foo' })
+  }
+}
+```
+
+## 각주 Footnotes
+
+```
+Here is a simple footnote[^1]. With some additional text after it.
+
+[^1]: My reference.
+```
+
+Here is a simple footnote[^1]. With some additional text after it.
+
+[^1]: My reference.
+
+## 체크 박스 Task Lists
+
+```
+- [x] list syntax required (any unordered or ordered list supported)
+- [x] this is a complete item
+- [ ] this is an incomplete item
+```
+
+- [x] list syntax required (any unordered or ordered list supported)
+- [x] this is a complete item
+- [ ] this is an incomplete item
+
+## 표 Tables
+
+You can create tables by assembling a list of words and dividing them with hyphens `-` (for the first row), and then separating each column with a pipe `|`:
+
+```
+| First Header                | Second Header                |
+| --------------------------- | ---------------------------- |
+| Content from cell 1         | Content from cell 2          |
+| Content in the first column | Content in the second column |
+```
+
+| First Header                | Second Header                |
+| --------------------------- | ---------------------------- |
+| Content from cell 1         | Content from cell 2          |
+| Content in the first column | Content in the second column |

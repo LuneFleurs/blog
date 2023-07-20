@@ -7,6 +7,7 @@ import formatDate from '@/lib/utils/formatDate'
 import Image from '@/components/Image'
 import Avatar from '@/data/avatar.png'
 import React, { useRef, useEffect } from 'react'
+import TypingEffect from './typingEffect'
 
 import NewsletterForm from '@/components/NewsletterForm'
 
@@ -68,10 +69,14 @@ export default function Home({ posts }) {
                 className="border-rainbow h-48 w-48 rounded-full border-4 border-solid"
               />
             </div>
-            <h3 className="pt-4 pb-2 text-2xl font-bold leading-8 tracking-tight">Hello!</h3>
-            <div className="text-gray-500 dark:text-gray-400">hi</div>
-            <div className="text-gray-500 dark:text-gray-400">somthing</div>
-            <div className="flex space-x-3 pt-6">else</div>
+            {/* <h3 className="pt-4 pb-2 text-2xl font-bold leading-8 tracking-tight">Hello!</h3> */}
+            <TypingEffect />
+            <div className="text-gray-500 dark:text-gray-400">Hi there!</div>
+            <div className="text-gray-500 dark:text-gray-400">
+              개발자 지망생의 블로그에 어서오세요
+            </div>
+            <div className="flex space-x-3 pt-6">개발 관련 일상 & 취미 생활</div>
+            <div className="text-gray-500 dark:text-gray-400">아마도 🍁?</div>
           </div>
           <h1 className="text-3xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-4xl sm:leading-10 md:text-6xl md:leading-14">
             최근 글
