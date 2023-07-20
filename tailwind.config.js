@@ -15,6 +15,10 @@ module.exports = {
   darkMode: 'class',
   theme: {
     extend: {
+      translate: {
+        '-full': '-100%',
+        full: '100%',
+      },
       spacing: {
         '9/16': '56.25%',
       },

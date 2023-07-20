@@ -58,32 +58,41 @@ export default function Home({ posts }) {
     <>
       <PageSEO title={siteMetadata.title} description={siteMetadata.description} />
       <div className="divide-y divide-gray-200 dark:divide-gray-700">
-        <div className="space-y-2 pt-6 pb-8 md:space-y-5">
+        <div className="space-y-2 pb-8 pt-6 md:space-y-5">
           <div className="flex flex-col items-center pt-8">
-            <div ref={avatarRef}>
-              <Image
-                src={Avatar}
-                alt="avatar"
-                width={192}
-                height={192}
-                className="border-rainbow h-48 w-48 rounded-full border-4 border-solid"
-              />
+            <div className="rounded-full shadow-lg">
+              <div ref={avatarRef} className="rounded-full">
+                <Image
+                  src={Avatar}
+                  alt="avatar"
+                  width={192}
+                  height={192}
+                  className="h-48 w-48 rounded-full"
+                />
+              </div>
             </div>
+
             {/* <h3 className="pt-4 pb-2 text-2xl font-bold leading-8 tracking-tight">Hello!</h3> */}
-            <TypingEffect />
-            <div className="text-gray-500 dark:text-gray-400">Hi there!</div>
-            <div className="text-gray-500 dark:text-gray-400">
-              개발자 지망생의 블로그에 어서오세요
+
+            <div className="flex flex-col items-center py-5">
+              <TypingEffect />
+              <div className="text-gray-500 dark:text-gray-400">Hi there!</div>
+              <div className="text-gray-500 dark:text-gray-400">
+                개발자 지망생의 블로그에 어서오세요
+              </div>
+              <div className="flex space-x-3 pt-6">개발 관련 일상 & 취미 생활</div>
+              <div className="text-gray-500 dark:text-gray-400">아마도 🍁?</div>
             </div>
-            <div className="flex space-x-3 pt-6">개발 관련 일상 & 취미 생활</div>
-            <div className="text-gray-500 dark:text-gray-400">아마도 🍁?</div>
+            <br />
           </div>
-          <h1 className="text-3xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-4xl sm:leading-10 md:text-6xl md:leading-14">
-            최근 글
-          </h1>
-          <p className="text-lg leading-7 text-gray-500 dark:text-gray-400">
-            {siteMetadata.description}
-          </p>
+          <div className="pt-4">
+            <h2 className="py-5 text-3xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-4xl sm:leading-10 md:text-6xl md:leading-14">
+              최근 소식
+            </h2>
+            <p className="text-lg leading-7 text-gray-500 dark:text-gray-400">
+              {siteMetadata.description}
+            </p>
+          </div>
         </div>
         <ul className="divide-y divide-gray-200 dark:divide-gray-700">
           {!posts.length && 'No posts found.'}
