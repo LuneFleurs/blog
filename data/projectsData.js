@@ -1,19 +1,15 @@
 const projectsData = [
   {
-    title: 'A Search Engine',
-    description: `What if you could look up any information in the world? Webpages, images, videos
-    and more. Google has many features to help you find exactly what you're looking
-    for.`,
-    imgSrc: '/static/images/google.png',
-    href: 'https://www.google.com',
+    title: '예티 봇',
+    description: `카카오톡 오픈채팅에서 사용할 수 있는 명령어 기반 자동응답 봇`,
+    imgSrc: '/static/images/yettttie.png',
+    href: 'https://yettttie.github.io',
   },
   {
-    title: 'The Time Machine',
-    description: `Imagine being able to travel back in time or to the future. Simple turn the knob
-    to the desired date and press "Go". No more worrying about lost keys or
-    forgotten headphones with this simple yet affordable solution.`,
+    title: 'Dummy Lorem Ipsum',
+    description: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus a leo consequat, pretium lectus laoreet, mattis nisl. Mauris ut ipsum eu felis pharetra feugiat. Maecenas mollis et mauris eget tempus.`,
     imgSrc: '/static/images/time-machine.jpg',
-    href: '/blog/the-time-machine',
+    href: '/blog/404',
   },
 ]
 
