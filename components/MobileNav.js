@@ -1,21 +1,54 @@
-import { useState } from 'react'
+import { useContext, useState, useEffect } from 'react'
 import Link from './Link'
 import headerNavLinks from '@/data/headerNavLinks'
+import { MobileNavContext } from './MobileNavContext'
+
+let previousBodyOverflowX
 
 const MobileNav = () => {
-  const [navShow, setNavShow] = useState(false)
+  const { navShow, setNavShow } = useContext(MobileNavContext)
 
-  const onToggleNav = () => {
+  // const onToggleNav = () => {
+  //   setNavShow((status) => {
+  //     if (status) {
+  //       document.body.style.overflow = 'auto'
+  //     } else {
+  //       // Prevent scrolling
+  //       document.body.style.overflow = 'hidden'
+  //     }
+  //     return !status
+  //   })
+  // }
+
+  function onToggleNav() {
     setNavShow((status) => {
-      if (status) {
-        document.body.style.overflow = 'auto'
+      if (!status) {
+        // Navigation menu is being opened
+        // Store the current overflow value to restore it later
+        previousBodyOverflowX = document.body.style.overflowX
+        // Prevent horizontal scrolling
+        document.body.style.overflowX = 'hidden'
       } else {
-        // Prevent scrolling
-        document.body.style.overflow = 'hidden'
+        // Navigation menu is being closed, restore the overflow value
+        document.body.style.overflowX = previousBodyOverflowX
       }
       return !status
     })
   }
+
+  useEffect(() => {
+    const preventSwipe = (e) => {
+      if (!navShow) {
+        e.preventDefault()
+      }
+    }
+
+    document.addEventListener('touchstart', preventSwipe, { passive: false })
+
+    return () => {
+      document.removeEventListener('touchstart', preventSwipe)
+    }
+  }, [navShow])
 
   return (
     <div className="sm:hidden">
@@ -39,8 +72,8 @@ const MobileNav = () => {
         </svg>
       </button>
       <div
-        className={`fixed left-0 top-0 z-10 h-screen w-full transform bg-gray-200 opacity-95 duration-300 ease-in-out dark:bg-gray-800 ${
-          navShow ? 'translate-x-0' : 'translate-x-full'
+        className={`fixed left-0 top-0 z-10 min-h-screen w-full transform bg-gray-200 opacity-95 duration-300 ease-in-out dark:bg-gray-800 ${
+          navShow ? 'visible translate-x-0' : 'invisible translate-x-full'
         }`}
       >
         <div className="flex justify-end">

@@ -9,6 +9,7 @@ function TypingEffect() {
   useEffect(() => {
     let index = 0
     let typing
+    let timer
 
     if (isTyping) {
       typing = setInterval(() => {
@@ -18,21 +19,23 @@ function TypingEffect() {
           clearInterval(typing)
           setIsTyping(false)
         }
-      }, 200) // 각 글자가 200ms 간격으로 표시됩니다.
+      }, 200)
     } else {
-      //   setIsBlinking(false) // 주석풀면 완성된후 _ 안깜박임
-      setTimeout(() => {
+      timer = setTimeout(() => {
         setText('')
         setIsTyping(true)
         setIsBlinking(true)
-      }, 5000) // 5초 동안 유지되게 합니다.
+      }, 5000)
     }
 
-    return () => clearInterval(typing) // 컴포넌트 unmount시 interval을 제거합니다.
-  }, [isTyping]) // isTyping 상태가 변경될 때마다 useEffect를 실행합니다.
+    return () => {
+      clearInterval(typing)
+      clearTimeout(timer)
+    }
+  }, [isTyping])
 
   return (
-    <h3 className="pt-4 pb-2 text-2xl font-bold leading-8 tracking-tight">
+    <h3 className="pb-2 pt-4 text-2xl font-bold leading-8 tracking-tight">
       {text}
       <span className={`cursor ${isBlinking ? 'blink' : ''}`}>_</span>
     </h3>

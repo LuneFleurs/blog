@@ -7,29 +7,29 @@ import SectionContainer from './SectionContainer'
 import Footer from './Footer'
 import MobileNav from './MobileNav'
 import ThemeSwitch from './ThemeSwitch'
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useRef, useContext } from 'react'
+import { MobileNavContext } from './MobileNavContext'
 
 const LayoutWrapper = ({ children }) => {
+  const { navShow } = useContext(MobileNavContext)
   const [isNavBarVisible, setIsNavBarVisible] = useState(true)
   const timeoutId = useRef(null)
 
-  const handleUserActivity = () => {
-    if (timeoutId.current) clearTimeout(timeoutId.current)
-
-    // 페이지 최상단에 있을 때는 네비게이션 바를 항상 표시합니다.
-    if (window.scrollY === 0) {
-      setIsNavBarVisible(true)
-      return
-    }
-
-    setIsNavBarVisible(true)
-
-    timeoutId.current = setTimeout(() => {
-      setIsNavBarVisible(false)
-    }, 2000)
-  }
-
   useEffect(() => {
+    const handleUserActivity = () => {
+      if (timeoutId.current) clearTimeout(timeoutId.current)
+
+      // 페이지 최상단에 있거나 모바일 네비게이션 메뉴가 활성화된 상태일 때는 네비게이션 바를 항상 표시합니다.
+      if (window.scrollY === 0 || navShow) {
+        setIsNavBarVisible(true)
+      } else {
+        setIsNavBarVisible(true)
+
+        timeoutId.current = setTimeout(() => {
+          setIsNavBarVisible(false)
+        }, 2000)
+      }
+    }
     window.addEventListener('mousemove', handleUserActivity)
     window.addEventListener('keydown', handleUserActivity)
     window.addEventListener('scroll', handleUserActivity)
@@ -40,7 +40,7 @@ const LayoutWrapper = ({ children }) => {
       window.removeEventListener('keydown', handleUserActivity)
       window.removeEventListener('scroll', handleUserActivity)
     }
-  }, [isNavBarVisible])
+  }, [navShow])
 
   const headerStyle = {
     transform: isNavBarVisible ? 'translateY(0)' : 'translateY(-100%)',
@@ -58,7 +58,7 @@ const LayoutWrapper = ({ children }) => {
           style={headerStyle}
         >
           <div
-            className="absolute inset-0 -z-10 rounded-b-xl bg-opacity-80 backdrop-blur-md"
+            className="transition-backdrop-filter absolute inset-0 -z-10 rounded-b-xl bg-opacity-80 backdrop-blur-md delay-200 duration-300 ease-in-out"
             style={blurBackgroundStyle}
           ></div>
           <div>
