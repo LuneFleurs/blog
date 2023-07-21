@@ -36,19 +36,19 @@ const MobileNav = () => {
     })
   }
 
-  useEffect(() => {
-    const preventSwipe = (e) => {
-      if (!navShow) {
-        e.preventDefault()
-      }
-    }
+  // useEffect(() => {
+  //   const preventSwipe = (e) => {
+  //     if (!navShow) {
+  //       e.preventDefault()
+  //     }
+  //   }
 
-    document.addEventListener('touchstart', preventSwipe, { passive: false })
+  //   document.addEventListener('touchstart', preventSwipe, { passive: false })
 
-    return () => {
-      document.removeEventListener('touchstart', preventSwipe)
-    }
-  }, [navShow])
+  //   return () => {
+  //     document.removeEventListener('touchstart', preventSwipe)
+  //   }
+  // }, [navShow])
 
   return (
     <div className="sm:hidden">
