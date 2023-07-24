@@ -8,18 +8,21 @@ import Image from '@/components/Image'
 import Avatar from '@/data/avatar.png'
 import projectsData from '@/data/projectsData'
 import Card from '@/components/CardView'
-import React, { useRef, useEffect } from 'react'
+import React, { useRef, useEffect, useState, useCallback } from 'react'
 import TypingEffect from './typingEffect'
-import 'swiper/swiper-bundle.css'
-import 'swiper/swiper.min.css'
+import 'swiper/css'
+import 'swiper/css/pagination'
+import 'swiper/css/navigation'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { Autoplay, Pagination, Navigation } from 'swiper/modules'
+import SwiperCore from 'swiper/core'
 
 import NewsletterForm from '@/components/NewsletterForm'
 
 const MAX_DISPLAY = 5
 const indices = [0, 1, 2, 3]
 const selectedProjects = indices.map((index) => projectsData[index])
+SwiperCore.use([Pagination, Navigation])
 
 export async function getStaticProps() {
   const posts = await getAllFilesFrontMatter('blog')
@@ -29,6 +32,15 @@ export async function getStaticProps() {
 
 export default function Home({ posts }) {
   const avatarRef = useRef(null)
+  const swiperRef = useRef(null)
+
+  const handlePrev = () => {
+    swiperRef.current?.swiper.slidePrev()
+  }
+
+  const handleNext = () => {
+    swiperRef.current?.swiper.slideNext()
+  }
 
   useEffect(() => {
     const avatar = avatarRef.current
@@ -64,6 +76,22 @@ export default function Home({ posts }) {
   }, [])
   return (
     <>
+      <style jsx global>{`
+        /* Pagination */
+        .swiper-pagination-bullet-active {
+          background: #06b6d4 !important; /* Tailwind's cyan.500 */
+        }
+
+        /* Pagination */
+        .swiper-pagination {
+          bottom: -60px; /* adjust as needed */
+          transform: -translate-y-full;
+        }
+
+        .swiper-container {
+          overflow: visible;
+        }
+      `}</style>
       <PageSEO title={siteMetadata.title} description={siteMetadata.description} />
       <div className="divide-y divide-gray-200 dark:divide-gray-700">
         <div className="space-y-2 pb-8 pt-6 md:space-y-5">
@@ -102,39 +130,74 @@ export default function Home({ posts }) {
             </p>
           </div>
         </div>
-        <div className="container py-12">
-          <div className="-m-4 flex flex-wrap">
-            <Swiper
-              spaceBetween={30}
-              slidesPerView={2}
-              autoplay={{
-                delay: 5000,
-                disableOnInteraction: false,
-              }}
-              pagination={{
-                clickable: true,
-              }}
-              navigation={{
-                nextEl: '.swiper-button-next',
-                prevEl: '.swiper-button-prev',
-              }}
-              modules={[Autoplay, Pagination, Navigation]}
-              className="mySwiper"
+        <div className="container relative py-12">
+          <button
+            onClick={handlePrev}
+            className="absolute left-0 top-1/2 z-10 -translate-x-full -translate-y-1/2 transform p-2 text-4xl text-cyan-500"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 22 22"
+              width="60"
+              height="60"
+              style={{ transform: 'scaleX(-1)' }}
             >
-              {selectedProjects.map((d, index) => (
-                <SwiperSlide key={index}>
-                  <Card
-                    title={d.title}
-                    description={d.description}
-                    imgSrc={d.imgSrc}
-                    href={d.href}
-                  />
-                </SwiperSlide>
-              ))}
-              {/* <div className="swiper-button-next absolute right-0 text-xl text-red-500"></div>
-              <div className="swiper-button-prev absolute left-0 text-xl text-red-500"></div> */}
-            </Swiper>
-          </div>
+              <defs>
+                <clipPath>
+                  <path fill="#06b6d4" fillOpacity=".514" d="m-7 1024.36h34v34h-34z" />
+                </clipPath>
+                <clipPath>
+                  <path fill="#06b6d4" fillOpacity=".472" d="m-6 1028.36h32v32h-32z" />
+                </clipPath>
+              </defs>
+              <path
+                d="m345.44 248.29l-194.29 194.28c-12.359 12.365-32.397 12.365-44.75 0-12.354-12.354-12.354-32.391 0-44.744l171.91-171.91-171.91-171.9c-12.354-12.359-12.354-32.394 0-44.748 12.354-12.359 32.391-12.359 44.75 0l194.29 194.28c6.177 6.18 9.262 14.271 9.262 22.366 0 8.099-3.091 16.196-9.267 22.373"
+                transform="matrix(.03541-.00013.00013.03541 2.98 3.02)"
+                fill="#06b6d4"
+              />
+            </svg>
+          </button>
+          <Swiper
+            ref={swiperRef}
+            spaceBetween={30}
+            slidesPerView={2}
+            autoplay={{
+              delay: 5000,
+              disableOnInteraction: false,
+            }}
+            pagination={{
+              clickable: true,
+            }}
+            loop={true}
+            modules={[Autoplay, Pagination, Navigation]}
+            className="mySwiper"
+          >
+            {selectedProjects.map((d, index) => (
+              <SwiperSlide key={index}>
+                <Card title={d.title} description={d.description} imgSrc={d.imgSrc} href={d.href} />
+              </SwiperSlide>
+            ))}
+          </Swiper>
+          <button
+            onClick={handleNext}
+            className="absolute right-0 top-1/2 z-10 -translate-y-1/2 translate-x-full transform p-2 text-4xl text-cyan-500"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 22" width="60" height="60">
+              <defs>
+                <clipPath>
+                  <path fill="#06b6d4" fillOpacity=".514" d="m-7 1024.36h34v34h-34z" />
+                </clipPath>
+                <clipPath>
+                  <path fill="#06b6d4" fillOpacity=".472" d="m-6 1028.36h32v32h-32z" />
+                </clipPath>
+              </defs>
+              <path
+                d="m345.44 248.29l-194.29 194.28c-12.359 12.365-32.397 12.365-44.75 0-12.354-12.354-12.354-32.391 0-44.744l171.91-171.91-171.91-171.9c-12.354-12.359-12.354-32.394 0-44.748 12.354-12.359 32.391-12.359 44.75 0l194.29 194.28c6.177 6.18 9.262 14.271 9.262 22.366 0 8.099-3.091 16.196-9.267 22.373"
+                transform="matrix(.03541-.00013.00013.03541 2.98 3.02)"
+                fill="#06b6d4"
+              />
+            </svg>
+          </button>
         </div>
         <ul className="divide-y divide-gray-200 dark:divide-gray-700">
           {!posts.length && 'No posts found.'}
