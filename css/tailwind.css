@@ -102,3 +102,16 @@ input:-webkit-autofill:focus {
     backdrop-filter: blur(0px);
   }
 }
+
+.swiper-button-next,
+.swiper-button-prev {
+  color: #000; /* change the color as you want */
+}
+
+.swiper-pagination-bullet {
+  @apply bg-cyan-400;
+}
+
+.swiper-pagination-bullet-active {
+  @apply bg-cyan-700;
+}

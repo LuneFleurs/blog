@@ -6,12 +6,20 @@ import { getAllFilesFrontMatter } from '@/lib/mdx'
 import formatDate from '@/lib/utils/formatDate'
 import Image from '@/components/Image'
 import Avatar from '@/data/avatar.png'
+import projectsData from '@/data/projectsData'
+import Card from '@/components/CardView'
 import React, { useRef, useEffect } from 'react'
 import TypingEffect from './typingEffect'
+import 'swiper/swiper-bundle.css'
+import 'swiper/swiper.min.css'
+import { Swiper, SwiperSlide } from 'swiper/react'
+import { Autoplay, Pagination, Navigation } from 'swiper/modules'
 
 import NewsletterForm from '@/components/NewsletterForm'
 
 const MAX_DISPLAY = 5
+const indices = [0, 1, 2, 3]
+const selectedProjects = indices.map((index) => projectsData[index])
 
 export async function getStaticProps() {
   const posts = await getAllFilesFrontMatter('blog')
@@ -92,6 +100,40 @@ export default function Home({ posts }) {
             <p className="text-lg leading-7 text-gray-500 dark:text-gray-400">
               {siteMetadata.description}
             </p>
+          </div>
+        </div>
+        <div className="container py-12">
+          <div className="-m-4 flex flex-wrap">
+            <Swiper
+              spaceBetween={30}
+              slidesPerView={2}
+              autoplay={{
+                delay: 5000,
+                disableOnInteraction: false,
+              }}
+              pagination={{
+                clickable: true,
+              }}
+              navigation={{
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+              }}
+              modules={[Autoplay, Pagination, Navigation]}
+              className="mySwiper"
+            >
+              {selectedProjects.map((d, index) => (
+                <SwiperSlide key={index}>
+                  <Card
+                    title={d.title}
+                    description={d.description}
+                    imgSrc={d.imgSrc}
+                    href={d.href}
+                  />
+                </SwiperSlide>
+              ))}
+              {/* <div className="swiper-button-next absolute right-0 text-xl text-red-500"></div>
+              <div className="swiper-button-prev absolute left-0 text-xl text-red-500"></div> */}
+            </Swiper>
           </div>
         </div>
         <ul className="divide-y divide-gray-200 dark:divide-gray-700">

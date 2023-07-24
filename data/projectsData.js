@@ -11,6 +11,18 @@ const projectsData = [
     imgSrc: '/static/images/time-machine.jpg',
     href: '/blog/404',
   },
+  {
+    title: 'Dummy Lorem Ipsum2',
+    description: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus a leo consequat, pretium lectus laoreet, mattis nisl. Mauris ut ipsum eu felis pharetra feugiat. Maecenas mollis et mauris eget tempus.`,
+    imgSrc: '/static/images/time-machine.jpg',
+    href: '/blog/404',
+  },
+  {
+    title: 'Dummy Lorem Ipsum3',
+    description: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus a leo consequat, pretium lectus laoreet, mattis nisl. Mauris ut ipsum eu felis pharetra feugiat. Maecenas mollis et mauris eget tempus.`,
+    imgSrc: '/static/images/time-machine.jpg',
+    href: '/blog/404',
+  },
 ]
 
 export default projectsData
