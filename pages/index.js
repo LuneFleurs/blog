@@ -84,7 +84,8 @@ export default function Home({ posts }) {
 
         /* Pagination */
         .swiper-pagination {
-          bottom: -60px; /* adjust as needed */
+          position: absolute;
+          bottom: -20px; /* adjust as needed */
           transform: -translate-y-full;
         }
 
@@ -166,6 +167,7 @@ export default function Home({ posts }) {
               disableOnInteraction: false,
             }}
             pagination={{
+              el: '.custom-pagination',
               clickable: true,
             }}
             loop={true}
@@ -184,7 +186,6 @@ export default function Home({ posts }) {
               </SwiperSlide>
             ))}
           </Swiper>
-
           <button
             onClick={handleNext}
             className="absolute right-0 top-1/2 z-10 -translate-y-1/2 translate-x-full transform p-2 text-4xl text-cyan-500"
@@ -205,6 +206,7 @@ export default function Home({ posts }) {
               />
             </svg>
           </button>
+          <div className="custom-pagination z-10 flex justify-center"></div>
         </div>
         <ul className="divide-y divide-gray-200 dark:divide-gray-700">
           {!posts.length && 'No posts found.'}
