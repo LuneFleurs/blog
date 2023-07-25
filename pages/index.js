@@ -160,7 +160,7 @@ export default function Home({ posts }) {
           <Swiper
             ref={swiperRef}
             spaceBetween={30}
-            slidesPerView={2}
+            slidesPerView={1}
             autoplay={{
               delay: 5000,
               disableOnInteraction: false,
@@ -171,6 +171,12 @@ export default function Home({ posts }) {
             loop={true}
             modules={[Autoplay, Pagination, Navigation]}
             className="mySwiper"
+            breakpoints={{
+              640: {
+                slidesPerView: 2,
+                spaceBetween: 20,
+              },
+            }}
           >
             {selectedProjects.map((d, index) => (
               <SwiperSlide key={index}>
@@ -178,6 +184,7 @@ export default function Home({ posts }) {
               </SwiperSlide>
             ))}
           </Swiper>
+
           <button
             onClick={handleNext}
             className="absolute right-0 top-1/2 z-10 -translate-y-1/2 translate-x-full transform p-2 text-4xl text-cyan-500"
