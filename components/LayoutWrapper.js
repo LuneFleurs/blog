@@ -71,14 +71,14 @@ const LayoutWrapper = ({ children }) => {
                 ) : (
                   siteMetadata.headerTitle
                 )} */}
-                <div className="mr-3">
+                <div className="ml-4 mr-3">
                   <Image src={logo} alt="blog logo" width={104} height={75} />
                   {/* <Logo /> */}
                 </div>
               </div>
             </Link>
           </div>
-          <div className="flex items-center text-base leading-5">
+          <div className="mr-4 flex items-center text-base leading-5">
             <div className="hidden sm:block">
               {headerNavLinks.map((link) => (
                 <Link
