@@ -47,6 +47,20 @@ const Giscus = () => {
 
     const comments = document.getElementById(COMMENTS_ID)
     if (comments) comments.appendChild(script)
+    // Make the background of the giscus iframe transparent
+    const iframeObserver = new MutationObserver((mutations) => {
+      for (let mutation of mutations) {
+        if (mutation.type === 'childList') {
+          const iframe = document.querySelector('iframe.giscus-frame')
+          if (iframe) {
+            iframe.style.background = 'transparent'
+            iframeObserver.disconnect()
+          }
+        }
+      }
+    })
+
+    iframeObserver.observe(document.getElementById(COMMENTS_ID), { childList: true })
 
     return () => {
       const comments = document.getElementById(COMMENTS_ID)
@@ -56,10 +70,10 @@ const Giscus = () => {
 
   // Reload on theme change
   useEffect(() => {
-    const iframe = document.querySelector('iframe.giscus-frame')
-    if (!iframe) return
+    // const iframe = document.querySelector('iframe.giscus-frame')
+    // if (!iframe) return
     LoadComments()
-  }, [LoadComments])
+  }, [])
 
   return (
     <div className="w-auto pb-6 pt-6 text-center text-gray-700 dark:text-gray-300">
