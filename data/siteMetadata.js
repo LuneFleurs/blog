@@ -61,8 +61,8 @@ const siteMetadata = {
       // If the theme option above is set to 'custom`
       // please provide a link below to your custom theme css file.
       // example: https://giscus.app/themes/custom_example.css
-      lightThemeURL: '/giscus-light.css',
-      darkThemeURL: '/giscus-custom-dark.css',
+      lightThemeURL: 'https://server.yettttie.dev/giscus-light.css',
+      darkThemeURL: 'https://server.yettttie.dev/giscus-custom-dark.css',
     },
     utterancesConfig: {
       // Visit the link below, and follow the steps in the 'configuration' section
