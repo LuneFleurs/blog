@@ -134,7 +134,7 @@ export default function Home({ posts }) {
         <div className="container relative py-12">
           <button
             onClick={handlePrev}
-            className="absolute left-0 top-1/2 z-10 -translate-x-full -translate-y-1/2 transform p-2 text-4xl text-cyan-500"
+            className="absolute left-0 top-1/2 z-10 hidden -translate-x-full -translate-y-1/2 transform p-2 text-4xl text-cyan-500 md:block"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -188,7 +188,7 @@ export default function Home({ posts }) {
           </Swiper>
           <button
             onClick={handleNext}
-            className="absolute right-0 top-1/2 z-10 -translate-y-1/2 translate-x-full transform p-2 text-4xl text-cyan-500"
+            className="absolute right-0 top-1/2 z-10 hidden -translate-y-1/2 translate-x-full transform p-2 text-4xl text-cyan-500 md:block"
           >
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 22" width="60" height="60">
               <defs>
