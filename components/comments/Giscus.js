@@ -4,7 +4,6 @@ import { useTheme } from 'next-themes'
 import siteMetadata from '@/data/siteMetadata'
 
 const Giscus = () => {
-  const [enableLoadComments, setEnabledLoadComments] = useState(true)
   const { theme, resolvedTheme } = useTheme()
   const commentsTheme =
     siteMetadata.comment.giscusConfig.themeURL === ''
@@ -16,8 +15,6 @@ const Giscus = () => {
   const COMMENTS_ID = 'comments-container'
 
   const LoadComments = useCallback(() => {
-    setEnabledLoadComments(false)
-
     const {
       repo,
       repositoryId,
@@ -54,6 +51,14 @@ const Giscus = () => {
           const iframe = document.querySelector('iframe.giscus-frame')
           if (iframe) {
             iframe.style.background = 'transparent'
+            iframe.style.width = '100%'
+            if (theme === 'dark' || resolvedTheme === 'dark') {
+              const giscusDocument = iframe.contentWindow.document
+              const giscusBody = giscusDocument.querySelector('body')
+              if (giscusBody) {
+                giscusBody.style.backgroundColor = 'transparent'
+              }
+            }
             iframeObserver.disconnect()
           }
         }
@@ -71,13 +76,11 @@ const Giscus = () => {
   // Reload on theme change
   useEffect(() => {
     const iframe = document.querySelector('iframe.giscus-frame')
-    if (!iframe) return
-    LoadComments()
+    if (!iframe) LoadComments()
   }, [theme, resolvedTheme, LoadComments])
 
   return (
     <div className="w-full pb-6 pt-6 text-center text-gray-700 dark:text-gray-300">
-      {enableLoadComments && <button onClick={LoadComments}>Load Comments</button>}
       <div className="giscus" id={COMMENTS_ID} />
     </div>
   )
