@@ -1,10 +1,11 @@
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useEffect, useCallback } from 'react'
 import { useTheme } from 'next-themes'
 
 import siteMetadata from '@/data/siteMetadata'
 
 const Giscus = () => {
   const { theme, resolvedTheme } = useTheme()
+
   const commentsTheme =
     theme === 'dark' || resolvedTheme === 'dark'
       ? siteMetadata.comment.giscusConfig.darkThemeURL
@@ -42,20 +43,19 @@ const Giscus = () => {
 
     const comments = document.getElementById(COMMENTS_ID)
     if (comments) comments.appendChild(script)
+
     // Make the background of the giscus iframe transparent
     const iframeObserver = new MutationObserver((mutations) => {
       for (let mutation of mutations) {
         if (mutation.type === 'childList') {
           const iframe = document.querySelector('iframe.giscus-frame')
           if (iframe) {
-            iframe.style.background = 'black'
+            iframe.style.background = 'transparent'
             iframe.style.width = '100%'
-            if (theme === 'dark' || resolvedTheme === 'dark') {
-              const giscusDocument = iframe.contentWindow.document
-              const giscusBody = giscusDocument.querySelector('body')
-              if (giscusBody) {
-                giscusBody.style.backgroundColor = 'black'
-              }
+            const giscusDocument = iframe.contentWindow.document
+            const giscusBody = giscusDocument.querySelector('body')
+            if (giscusBody) {
+              giscusBody.style.backgroundColor = 'transparent'
             }
             iframeObserver.disconnect()
           }
@@ -75,8 +75,7 @@ const Giscus = () => {
   useEffect(() => {
     // Determine the appropriate CSS file based on the theme
     const giscusCSSLink = document.getElementById('giscus-theme-css')
-    const newCSSHref =
-      theme === 'dark' || resolvedTheme === 'dark' ? '/giscus-custom-dark.css' : '/giscus-light.css'
+    const newCSSHref = commentsTheme
 
     if (giscusCSSLink) {
       giscusCSSLink.href = newCSSHref
@@ -87,6 +86,7 @@ const Giscus = () => {
       link.href = newCSSHref
       document.head.appendChild(link)
     }
+
     const iframe = document.querySelector('iframe.giscus-frame')
     if (!iframe) LoadComments()
   }, [theme, resolvedTheme, LoadComments])
