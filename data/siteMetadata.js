@@ -51,17 +51,18 @@ const siteMetadata = {
       metadata: '0',
       // theme example: light, dark, dark_dimmed, dark_high_contrast
       // transparent_dark, preferred_color_scheme, custom
-      theme: 'light',
+      theme: 'custom',
       // Place the comment box above the comments. options: bottom, top
       inputPosition: 'bottom',
       // Choose the language giscus will be displayed in. options: en, es, zh-CN, zh-TW, ko, ja etc
       lang: 'ko',
       // theme when dark mode
-      darkTheme: 'transparent_dark',
+      darkTheme: 'custom',
       // If the theme option above is set to 'custom`
       // please provide a link below to your custom theme css file.
       // example: https://giscus.app/themes/custom_example.css
-      themeURL: '/giscus-custom-dark.css',
+      lightThemeURL: '/giscus-light.css',
+      darkThemeURL: '/giscus-custom-dark.css',
     },
     utterancesConfig: {
       // Visit the link below, and follow the steps in the 'configuration' section

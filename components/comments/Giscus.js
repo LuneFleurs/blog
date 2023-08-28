@@ -6,11 +6,9 @@ import siteMetadata from '@/data/siteMetadata'
 const Giscus = () => {
   const { theme, resolvedTheme } = useTheme()
   const commentsTheme =
-    siteMetadata.comment.giscusConfig.themeURL === ''
-      ? theme === 'dark' || resolvedTheme === 'dark'
-        ? siteMetadata.comment.giscusConfig.darkTheme
-        : siteMetadata.comment.giscusConfig.theme
-      : siteMetadata.comment.giscusConfig.themeURL
+    theme === 'dark' || resolvedTheme === 'dark'
+      ? siteMetadata.comment.giscusConfig.darkThemeURL
+      : siteMetadata.comment.giscusConfig.lightThemeURL
 
   const COMMENTS_ID = 'comments-container'
 
