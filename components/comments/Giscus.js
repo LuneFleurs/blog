@@ -14,90 +14,84 @@ const Giscus = () => {
 
   const COMMENTS_ID = 'comments-container'
 
-  const LoadComments = useCallback(
-    (currentTheme) => {
-      const {
-        repo,
-        repositoryId,
-        category,
-        categoryId,
-        mapping,
-        reactions,
-        metadata,
-        inputPosition,
-        lang,
-      } = siteMetadata?.comment?.giscusConfig
+  // Determine the appropriate CSS file based on the theme
+  const giscusCSSLink = document.getElementById('giscus-theme-css')
+  const newCSSHref =
+    theme === 'dark' || resolvedTheme === 'dark' ? '/giscus-custom-dark.css' : '/giscus-light.css'
+  if (giscusCSSLink) {
+    giscusCSSLink.href = newCSSHref
+  } else {
+    const link = document.createElement('link')
+    link.id = 'giscus-theme-css'
+    link.rel = 'stylesheet'
+    link.href = newCSSHref
+    document.head.appendChild(link)
+  }
 
-      // Remove the existing Giscus iframe if present
-      const existingIframe = document.querySelector('iframe.giscus-frame')
-      if (existingIframe) {
-        existingIframe.remove()
-      }
+  const LoadComments = useCallback(() => {
+    const {
+      repo,
+      repositoryId,
+      category,
+      categoryId,
+      mapping,
+      reactions,
+      metadata,
+      inputPosition,
+      lang,
+    } = siteMetadata?.comment?.giscusConfig
 
-      // Determine the appropriate CSS file based on the theme
-      const giscusCSSLink = document.getElementById('giscus-theme-css')
-      const newCSSHref =
-        theme === 'dark' || resolvedTheme === 'dark' ? '/giscus-dark.css' : '/giscus-light.css'
-      if (giscusCSSLink) {
-        giscusCSSLink.href = newCSSHref
-      } else {
-        const link = document.createElement('link')
-        link.id = 'giscus-theme-css'
-        link.rel = 'stylesheet'
-        link.href = newCSSHref
-        document.head.appendChild(link)
-      }
+    const script = document.createElement('script')
+    script.src = 'https://giscus.app/client.js'
+    script.setAttribute('data-repo', repo)
+    script.setAttribute('data-repo-id', repositoryId)
+    script.setAttribute('data-category', category)
+    script.setAttribute('data-category-id', categoryId)
+    script.setAttribute('data-mapping', mapping)
+    script.setAttribute('data-reactions-enabled', reactions)
+    script.setAttribute('data-emit-metadata', metadata)
+    script.setAttribute('data-input-position', inputPosition)
+    script.setAttribute('data-lang', lang)
+    script.setAttribute('data-theme', commentsTheme)
+    script.setAttribute('crossorigin', 'anonymous')
+    script.async = true
 
-      const script = document.createElement('script')
-      script.src = 'https://giscus.app/client.js'
-      script.setAttribute('data-repo', repo)
-      script.setAttribute('data-repo-id', repositoryId)
-      script.setAttribute('data-category', category)
-      script.setAttribute('data-category-id', categoryId)
-      script.setAttribute('data-mapping', mapping)
-      script.setAttribute('data-reactions-enabled', reactions)
-      script.setAttribute('data-emit-metadata', metadata)
-      script.setAttribute('data-input-position', inputPosition)
-      script.setAttribute('data-lang', lang)
-      script.setAttribute(
-        'data-theme',
-        currentTheme === 'dark'
-          ? siteMetadata.comment.giscusConfig.darkTheme
-          : siteMetadata.comment.giscusConfig.theme
-      )
-      script.setAttribute('crossorigin', 'anonymous')
-      script.async = true
-
-      const comments = document.getElementById(COMMENTS_ID)
-      if (comments) comments.appendChild(script)
-      // Make the background of the giscus iframe transparent
-      const iframeObserver = new MutationObserver((mutations) => {
-        for (let mutation of mutations) {
-          if (mutation.type === 'childList') {
-            const iframe = document.querySelector('iframe.giscus-frame')
-            if (iframe) {
-              iframe.style.background = 'transparent'
-              iframeObserver.disconnect()
+    const comments = document.getElementById(COMMENTS_ID)
+    if (comments) comments.appendChild(script)
+    // Make the background of the giscus iframe transparent
+    const iframeObserver = new MutationObserver((mutations) => {
+      for (let mutation of mutations) {
+        if (mutation.type === 'childList') {
+          const iframe = document.querySelector('iframe.giscus-frame')
+          if (iframe) {
+            iframe.style.background = 'transparent'
+            iframe.style.width = '100%'
+            if (theme === 'dark' || resolvedTheme === 'dark') {
+              const giscusDocument = iframe.contentWindow.document
+              const giscusBody = giscusDocument.querySelector('body')
+              if (giscusBody) {
+                giscusBody.style.backgroundColor = 'transparent'
+              }
             }
+            iframeObserver.disconnect()
           }
         }
-      })
-
-      iframeObserver.observe(document.getElementById(COMMENTS_ID), { childList: true })
-
-      return () => {
-        const comments = document.getElementById(COMMENTS_ID)
-        if (comments) comments.innerHTML = ''
       }
-    },
-    [commentsTheme]
-  )
+    })
+
+    iframeObserver.observe(document.getElementById(COMMENTS_ID), { childList: true })
+
+    return () => {
+      const comments = document.getElementById(COMMENTS_ID)
+      if (comments) comments.innerHTML = ''
+    }
+  }, [commentsTheme])
 
   // Reload on theme change
   useEffect(() => {
     const iframe = document.querySelector('iframe.giscus-frame')
-    if (!iframe) LoadComments(theme === 'dark' || resolvedTheme === 'dark' ? 'dark' : 'light')
-  }, [theme, resolvedTheme])
+    if (!iframe) LoadComments()
+  }, [theme, resolvedTheme, LoadComments])
 
   return (
     <div className="w-full pb-6 pt-6 text-center text-gray-700 dark:text-gray-300">
