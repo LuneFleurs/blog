@@ -28,6 +28,12 @@ const Giscus = () => {
         lang,
       } = siteMetadata?.comment?.giscusConfig
 
+      // Remove the existing Giscus iframe if present
+      const existingIframe = document.querySelector('iframe.giscus-frame')
+      if (existingIframe) {
+        existingIframe.remove()
+      }
+
       const script = document.createElement('script')
       script.src = 'https://giscus.app/client.js'
       script.setAttribute('data-repo', repo)
