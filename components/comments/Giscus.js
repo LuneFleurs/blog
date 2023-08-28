@@ -64,13 +64,13 @@ const Giscus = () => {
         if (mutation.type === 'childList') {
           const iframe = document.querySelector('iframe.giscus-frame')
           if (iframe) {
-            iframe.style.background = 'transparent'
+            iframe.style.background = 'black'
             iframe.style.width = '100%'
             if (theme === 'dark' || resolvedTheme === 'dark') {
               const giscusDocument = iframe.contentWindow.document
               const giscusBody = giscusDocument.querySelector('body')
               if (giscusBody) {
-                giscusBody.style.backgroundColor = 'transparent'
+                giscusBody.style.backgroundColor = 'black'
               }
             }
             iframeObserver.disconnect()
