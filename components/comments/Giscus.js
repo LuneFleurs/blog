@@ -15,7 +15,7 @@ const Giscus = () => {
   // Determine the appropriate CSS file based on the theme
   const giscusCSSLink = document.getElementById('giscus-theme-css')
   const newCSSHref =
-    theme === 'dark' || resolvedTheme === 'dark' ? '/giscus-custom-dark.css' : '/giscus-light.css'
+    theme === 'dark' || resolvedTheme === 'dark' ? '/giscus-light.css' : '/giscus-custom-dark.css'
   if (giscusCSSLink) {
     giscusCSSLink.href = newCSSHref
   } else {
