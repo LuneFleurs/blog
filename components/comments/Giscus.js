@@ -12,20 +12,6 @@ const Giscus = () => {
 
   const COMMENTS_ID = 'comments-container'
 
-  // Determine the appropriate CSS file based on the theme
-  const giscusCSSLink = document.getElementById('giscus-theme-css')
-  const newCSSHref =
-    theme === 'dark' || resolvedTheme === 'dark' ? '/giscus-light.css' : '/giscus-custom-dark.css'
-  if (giscusCSSLink) {
-    giscusCSSLink.href = newCSSHref
-  } else {
-    const link = document.createElement('link')
-    link.id = 'giscus-theme-css'
-    link.rel = 'stylesheet'
-    link.href = newCSSHref
-    document.head.appendChild(link)
-  }
-
   const LoadComments = useCallback(() => {
     const {
       repo,
@@ -87,6 +73,19 @@ const Giscus = () => {
 
   // Reload on theme change
   useEffect(() => {
+    // Determine the appropriate CSS file based on the theme
+    const giscusCSSLink = document.getElementById('giscus-theme-css')
+    const newCSSHref =
+      theme === 'dark' || resolvedTheme === 'dark' ? '/giscus-light.css' : '/giscus-custom-dark.css'
+    if (giscusCSSLink) {
+      giscusCSSLink.href = newCSSHref
+    } else {
+      const link = document.createElement('link')
+      link.id = 'giscus-theme-css'
+      link.rel = 'stylesheet'
+      link.href = newCSSHref
+      document.head.appendChild(link)
+    }
     const iframe = document.querySelector('iframe.giscus-frame')
     if (!iframe) LoadComments()
   }, [theme, resolvedTheme, LoadComments])
