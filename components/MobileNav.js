@@ -72,8 +72,8 @@ const MobileNav = () => {
         </svg>
       </button>
       <div
-        className={`fixed left-0 top-0 z-10 min-h-screen w-full transform bg-gray-200 opacity-95 duration-300 ease-in-out dark:bg-gray-800 ${
-          navShow ? 'visible translate-x-0' : 'invisible translate-x-full'
+        className={`fixed left-0 top-0 z-10 min-h-screen w-full bg-gray-200 opacity-95 duration-300 ease-in-out dark:bg-gray-800 ${
+          navShow ? 'block' : 'hidden'
         }`}
       >
         <div className="flex justify-end">
