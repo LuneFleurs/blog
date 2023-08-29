@@ -1,6 +1,5 @@
 import React, { useEffect, useCallback } from 'react'
 import { useTheme } from 'next-themes'
-
 import siteMetadata from '@/data/siteMetadata'
 
 const Giscus = () => {
@@ -44,36 +43,23 @@ const Giscus = () => {
     const comments = document.getElementById(COMMENTS_ID)
     if (comments) comments.appendChild(script)
 
-    // Make the background of the giscus iframe transparent
-    const iframeObserver = new MutationObserver((mutations) => {
-      for (let mutation of mutations) {
-        if (mutation.type === 'childList') {
-          const iframe = document.querySelector('iframe.giscus-frame')
-          if (iframe) {
-            iframe.style.background = 'transparent'
-            iframe.style.width = '100%'
-            const giscusDocument = iframe.contentWindow.document
-            const giscusBody = giscusDocument.querySelector('body')
-            if (giscusBody) {
-              giscusBody.style.backgroundColor = 'transparent'
-            }
-            iframeObserver.disconnect()
-          }
-        }
-      }
-    })
-
-    iframeObserver.observe(document.getElementById(COMMENTS_ID), { childList: true })
-
     return () => {
       const comments = document.getElementById(COMMENTS_ID)
       if (comments) comments.innerHTML = ''
     }
   }, [commentsTheme])
 
-  // Reload on theme change
+  const handleThemeChange = useCallback(
+    (event) => {
+      const newTheme = event.detail.newTheme
+      // Here you can add logic to change the comments' theme
+      // For now, we are simply reloading the comments
+      LoadComments()
+    },
+    [LoadComments]
+  )
+
   useEffect(() => {
-    // Determine the appropriate CSS file based on the theme
     const giscusCSSLink = document.getElementById('giscus-theme-css')
     const newCSSHref = commentsTheme
 
@@ -89,7 +75,16 @@ const Giscus = () => {
 
     const iframe = document.querySelector('iframe.giscus-frame')
     if (!iframe) LoadComments()
-  }, [theme, resolvedTheme, LoadComments])
+
+    // Listen for the custom event for theme change
+    window.addEventListener('themeChanged', handleThemeChange)
+
+    // Cleanup
+    return () => {
+      // Remove the event listener when the component is unmounted
+      window.removeEventListener('themeChanged', handleThemeChange)
+    }
+  }, [theme, resolvedTheme, LoadComments, handleThemeChange])
 
   return (
     <div className="w-full pb-6 pt-6 text-center text-gray-700 dark:text-gray-300">
