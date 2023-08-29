@@ -52,9 +52,10 @@ const Giscus = () => {
   const handleThemeChange = useCallback(
     (event) => {
       const newTheme = event.detail.newTheme
-      // Here you can add logic to change the comments' theme
-      // For now, we are simply reloading the comments
-      LoadComments()
+      // 일부 지연 후 댓글을 다시 로드
+      setTimeout(() => {
+        LoadComments()
+      }, 100)
     },
     [LoadComments]
   )
