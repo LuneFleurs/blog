@@ -70,17 +70,20 @@ export default function Home({ posts }) {
       let adjustedAngle = currentAngle % 360;
       if (adjustedAngle < 0) adjustedAngle += 360;
 
-      // 시계 방향과 반시계 방향 중 더 짧은 경로 선택
-      const clockwiseDistance = 360 - adjustedAngle;
-      const counterClockwiseDistance = adjustedAngle;
+      // 최단 경로 계산
+      let targetAngle = 0; // 목표 각도는 항상 0도(12시 방향)
+      let diff = adjustedAngle - targetAngle;
 
-      // 시계 방향으로 돌아가는 경우
-      if (clockwiseDistance < counterClockwiseDistance) {
-        avatar.style.transform = `rotate(${360}deg)`;
-      } else {
-        // 반시계 방향으로 돌아가는 경우
-        avatar.style.transform = `rotate(0deg)`;
+      // -180도에서 180도 사이로 각도 차이 조정 (이 구간에서 최단 경로를 선택)
+      if (diff > 180) {
+        diff -= 360;
+      } else if (diff < -180) {
+        diff += 360;
       }
+
+      // 최종 회전 각도 설정
+      const finalAngle = adjustedAngle - diff;
+      avatar.style.transform = `rotate(${finalAngle}deg)`;
 
       avatar.removeEventListener('mousemove', handleMouseMove);
     };
