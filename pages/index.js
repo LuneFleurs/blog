@@ -1,79 +1,79 @@
-import Link from '@/components/Link'
-import { PageSEO } from '@/components/SEO'
-import Tag from '@/components/Tag'
-import siteMetadata from '@/data/siteMetadata'
-import { getAllFilesFrontMatter } from '@/lib/mdx'
-import formatDate from '@/lib/utils/formatDate'
-import Image from '@/components/Image'
-import Avatar from '@/data/avatar.png'
-import projectsData from '@/data/projectsData'
-import Card from '@/components/CardView'
-import React, { useRef, useEffect, useState, useCallback } from 'react'
-import TypingEffect from './typingEffect'
-import 'swiper/css'
-import 'swiper/css/pagination'
-import 'swiper/css/navigation'
-import { Swiper, SwiperSlide } from 'swiper/react'
-import { Autoplay, Pagination, Navigation } from 'swiper/modules'
-import SwiperCore from 'swiper/core'
+import Link from '@/components/Link';
+import { PageSEO } from '@/components/SEO';
+import Tag from '@/components/Tag';
+import siteMetadata from '@/data/siteMetadata';
+import { getAllFilesFrontMatter } from '@/lib/mdx';
+import formatDate from '@/lib/utils/formatDate';
+import Image from '@/components/Image';
+import Avatar from '@/data/avatar.png';
+import projectsData from '@/data/projectsData';
+import Card from '@/components/CardView';
+import React, { useRef, useEffect, useState, useCallback } from 'react';
+import TypingEffect from './typingEffect';
+import 'swiper/css';
+import 'swiper/css/pagination';
+import 'swiper/css/navigation';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Autoplay, Pagination, Navigation } from 'swiper/modules';
+import SwiperCore from 'swiper/core';
 
-import NewsletterForm from '@/components/NewsletterForm'
+import NewsletterForm from '@/components/NewsletterForm';
 
-const MAX_DISPLAY = 5
-const indices = [0, 1, 2, 3]
-const selectedProjects = indices.map((index) => projectsData[index])
-SwiperCore.use([Pagination, Navigation])
+const MAX_DISPLAY = 5;
+const indices = [0, 1, 2, 3];
+const selectedProjects = indices.map((index) => projectsData[index]);
+SwiperCore.use([Pagination, Navigation]);
 
 export async function getStaticProps() {
-  const posts = await getAllFilesFrontMatter('blog')
+  const posts = await getAllFilesFrontMatter('blog');
 
-  return { props: { posts } }
+  return { props: { posts } };
 }
 
 export default function Home({ posts }) {
-  const avatarRef = useRef(null)
-  const swiperRef = useRef(null)
+  const avatarRef = useRef(null);
+  const swiperRef = useRef(null);
 
   const handlePrev = () => {
-    swiperRef.current?.swiper.slidePrev()
-  }
+    swiperRef.current?.swiper.slidePrev();
+  };
 
   const handleNext = () => {
-    swiperRef.current?.swiper.slideNext()
-  }
+    swiperRef.current?.swiper.slideNext();
+  };
 
   useEffect(() => {
-    const avatar = avatarRef.current
-    if (!avatar) return
+    const avatar = avatarRef.current;
+    if (!avatar) return;
 
     const handleMouseMove = (e) => {
-      const rect = avatar.getBoundingClientRect()
-      const x = e.clientX - rect.left - rect.width / 2
-      const y = e.clientY - rect.top - rect.height / 2
-      const deg = (Math.atan2(y, x) * 180) / Math.PI + 90
-      avatar.style.transform = `rotate(${deg}deg)`
-    }
+      const rect = avatar.getBoundingClientRect();
+      const x = e.clientX - rect.left - rect.width / 2;
+      const y = e.clientY - rect.top - rect.height / 2;
+      const deg = (Math.atan2(y, x) * 180) / Math.PI;
+      avatar.style.transform = `rotate(${deg}deg)`;
+    };
 
     const handleMouseEnter = () => {
       // Set the transition property before the mouse moves
-      avatar.style.transition = ''
-      avatar.addEventListener('mousemove', handleMouseMove)
-    }
+      avatar.style.transition = '';
+      avatar.addEventListener('mousemove', handleMouseMove);
+    };
 
     const handleMouseLeave = () => {
-      avatar.style.transition = 'transform 1s' // Add transition
-      avatar.style.transform = 'rotate(0deg)' // Reset the rotation
-      avatar.removeEventListener('mousemove', handleMouseMove)
-    }
+      avatar.style.transition = 'transform 1s'; // Add transition
+      avatar.style.transform = 'rotate(0deg)'; // Reset the rotation
+      avatar.removeEventListener('mousemove', handleMouseMove);
+    };
 
-    avatar.addEventListener('mouseenter', handleMouseEnter)
-    avatar.addEventListener('mouseleave', handleMouseLeave)
+    avatar.addEventListener('mouseenter', handleMouseEnter);
+    avatar.addEventListener('mouseleave', handleMouseLeave);
 
     return () => {
-      avatar.removeEventListener('mouseenter', handleMouseEnter)
-      avatar.removeEventListener('mouseleave', handleMouseLeave)
-    }
-  }, [])
+      avatar.removeEventListener('mouseenter', handleMouseEnter);
+      avatar.removeEventListener('mouseleave', handleMouseLeave);
+    };
+  }, []);
   return (
     <>
       <style jsx global>{`
@@ -211,7 +211,7 @@ export default function Home({ posts }) {
         <ul className="divide-y divide-gray-200 dark:divide-gray-700">
           {!posts.length && 'No posts found.'}
           {posts.slice(0, MAX_DISPLAY).map((frontMatter) => {
-            const { slug, date, title, summary, tags } = frontMatter
+            const { slug, date, title, summary, tags } = frontMatter;
             return (
               <li key={slug} className="py-12">
                 <article>
@@ -256,7 +256,7 @@ export default function Home({ posts }) {
                   </div>
                 </article>
               </li>
-            )
+            );
           })}
         </ul>
       </div>
@@ -277,5 +277,5 @@ export default function Home({ posts }) {
         </div>
       )} */}
     </>
-  )
+  );
 }
