@@ -23,7 +23,7 @@ summary: 블로그 플랫폼 비교
 
 서론이 길었고 본격적으로 비교를 좀 해보도록 하자
 
-<hr style="border: solid 1px #06b6d4;"><hr/>
+<hr style="border: solid 1px #06b6d4;"/>
 
 ### 네이버 블로그
 
