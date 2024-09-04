@@ -76,7 +76,7 @@ export default function Home({ posts }) {
 
       // 시계 방향으로 돌아가는 경우
       if (clockwiseDistance < counterClockwiseDistance) {
-        avatar.style.transform = `rotate(${adjustedAngle + 360}deg)`;
+        avatar.style.transform = `rotate(${360}deg)`;
       } else {
         // 반시계 방향으로 돌아가는 경우
         avatar.style.transform = `rotate(0deg)`;
