@@ -50,7 +50,7 @@ export default function Home({ posts }) {
       const rect = avatar.getBoundingClientRect();
       const x = e.clientX - rect.left - rect.width / 2;
       const y = e.clientY - rect.top - rect.height / 2;
-      const deg = (Math.atan2(y, x) * 180) / Math.PI;
+      const deg = (Math.atan2(y, x) * 180) / Math.PI + 90;
       avatar.style.transform = `rotate(${deg}deg)`;
     };
 
@@ -62,7 +62,28 @@ export default function Home({ posts }) {
 
     const handleMouseLeave = () => {
       avatar.style.transition = 'transform 1s'; // Add transition
-      avatar.style.transform = 'rotate(0deg)'; // Reset the rotation
+      // 그냥 보내면 브라우저가 알아서 하는데 일관되지 않을 수 있어 자세한 계산 로직 추가
+      // avatar.style.transform = 'rotate(0deg)'; // Reset the transform
+
+      const currentTransform = window.getComputedStyle(avatar).getPropertyValue('transform');
+
+      let currentAngle = 0;
+      if (currentTransform !== 'none') {
+        const matrix = currentTransform.split('(')[1].split(')')[0].split(',');
+        const a = parseFloat(matrix[0]);
+        const b = parseFloat(matrix[1]);
+        currentAngle = Math.round(Math.atan2(b, a) * (180 / Math.PI));
+      }
+
+      // Determine the shortest rotation path to 0 degrees
+      const deltaAngle = (currentAngle % 360) - 0; // Calculate difference to 0 degrees
+      if (deltaAngle > 0) {
+        // If the angle is positive, rotate counterclockwise to 0
+        avatar.style.transform = `rotate(${deltaAngle > 180 ? 360 - deltaAngle : -deltaAngle}deg)`;
+      } else {
+        // If the angle is negative, rotate clockwise to 0
+        avatar.style.transform = `rotate(${deltaAngle < -180 ? 360 + deltaAngle : -deltaAngle}deg)`;
+      }
       avatar.removeEventListener('mousemove', handleMouseMove);
     };
 
