@@ -52,13 +52,18 @@ export default function Home({ posts }) {
       const x = e.clientX - rect.left - rect.width / 2;
       const y = e.clientY - rect.top - rect.height / 2;
       const deg = (Math.atan2(y, x) * 180) / Math.PI + 90;
-      setCurrentAngle(deg); // 상태 업데이트
-      avatar.style.transform = `rotate(${deg}deg)`;
+
+      // deg를 0~360 범위로 고정
+      let adjustedDeg = deg % 360;
+      if (adjustedDeg < 0) adjustedDeg += 360;
+
+      setCurrentAngle(adjustedDeg); // 상태 업데이트
+      avatar.style.transform = `rotate(${adjustedDeg}deg)`;
     };
 
     const handleMouseEnter = () => {
       // Set the transition property before the mouse moves
-      avatar.style.transition = 'transform 0.2s';
+      avatar.style.transition = 'transform 0.1s';
       avatar.addEventListener('mousemove', handleMouseMove);
     };
 
