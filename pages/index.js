@@ -33,6 +33,7 @@ export async function getStaticProps() {
 export default function Home({ posts }) {
   const avatarRef = useRef(null);
   const swiperRef = useRef(null);
+  const [currentAngle, setCurrentAngle] = useState(0);
 
   const handlePrev = () => {
     swiperRef.current?.swiper.slidePrev();
@@ -51,12 +52,13 @@ export default function Home({ posts }) {
       const x = e.clientX - rect.left - rect.width / 2;
       const y = e.clientY - rect.top - rect.height / 2;
       const deg = (Math.atan2(y, x) * 180) / Math.PI + 90;
+      setCurrentAngle(deg); // 상태 업데이트
       avatar.style.transform = `rotate(${deg}deg)`;
     };
 
     const handleMouseEnter = () => {
       // Set the transition property before the mouse moves
-      avatar.style.transition = '';
+      avatar.style.transition = 'transform 0.2s';
       avatar.addEventListener('mousemove', handleMouseMove);
     };
 
@@ -65,25 +67,21 @@ export default function Home({ posts }) {
       // 그냥 보내면 브라우저가 알아서 하는데 일관되지 않을 수 있어 자세한 계산 로직 추가
       // avatar.style.transform = 'rotate(0deg)'; // Reset the transform
 
-      const currentTransform = window.getComputedStyle(avatar).getPropertyValue('transform');
+      let adjustedAngle = currentAngle % 360;
+      if (adjustedAngle < 0) adjustedAngle += 360;
 
-      let currentAngle = 0;
-      if (currentTransform !== 'none') {
-        const matrix = currentTransform.split('(')[1].split(')')[0].split(',');
-        const a = parseFloat(matrix[0]);
-        const b = parseFloat(matrix[1]);
-        currentAngle = Math.round(Math.atan2(b, a) * (180 / Math.PI));
-      }
+      // 시계 방향과 반시계 방향 중 더 짧은 경로 선택
+      const clockwiseDistance = 360 - adjustedAngle;
+      const counterClockwiseDistance = adjustedAngle;
 
-      // Determine the shortest rotation path to 0 degrees
-      const deltaAngle = (currentAngle % 360) - 0; // Calculate difference to 0 degrees
-      if (deltaAngle > 0) {
-        // If the angle is positive, rotate counterclockwise to 0
-        avatar.style.transform = `rotate(${deltaAngle > 180 ? 360 - deltaAngle : -deltaAngle}deg)`;
+      // 시계 방향으로 돌아가는 경우
+      if (clockwiseDistance < counterClockwiseDistance) {
+        avatar.style.transform = `rotate(${adjustedAngle + 360}deg)`;
       } else {
-        // If the angle is negative, rotate clockwise to 0
-        avatar.style.transform = `rotate(${deltaAngle < -180 ? 360 + deltaAngle : -deltaAngle}deg)`;
+        // 반시계 방향으로 돌아가는 경우
+        avatar.style.transform = `rotate(0deg)`;
       }
+
       avatar.removeEventListener('mousemove', handleMouseMove);
     };
 
@@ -94,7 +92,7 @@ export default function Home({ posts }) {
       avatar.removeEventListener('mouseenter', handleMouseEnter);
       avatar.removeEventListener('mouseleave', handleMouseLeave);
     };
-  }, []);
+  }, [currentAngle]);
   return (
     <>
       <style jsx global>{`
