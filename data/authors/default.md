@@ -2,7 +2,7 @@
 name: Chaneun Yeo
 avatar: /static/images/avatar.png
 occupation: 쉬었음 청년
-company: -
+company: \-
 email: sooda1014@gmail.com
 github: https://github.com/LuneFleurs/
 ---
